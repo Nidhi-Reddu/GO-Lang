@@ -1,0 +1,219 @@
+{{ define "title" }}Create Post | MyBlogs{{ end }}
+
+{{ define "content" }}
+
+<div class="mx-auto max-w-3xl">
+
+    <!-- Page Heading -->
+    <div class="mb-8 text-center">
+
+        <div class="mb-4 inline-flex h-14 w-14 items-center justify-center
+                    rounded-2xl bg-cyan-100 text-cyan-700
+                    dark:bg-cyan-950 dark:text-cyan-400">
+            <i class="fa-solid fa-pen-to-square text-2xl"></i>
+        </div>
+
+        <h1 class="mb-3 text-3xl font-bold text-gray-900 dark:text-white">
+            Create New Post
+        </h1>
+
+        <p class="text-gray-600 dark:text-gray-400">
+            Share your ideas, knowledge, and experiences with the community.
+        </p>
+
+    </div>
+
+
+    <!-- Create Post Form -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-6
+                shadow-lg sm:p-8 dark:border-gray-700 dark:bg-gray-800">
+
+        <form action="/posts" method="POST" class="space-y-6">
+
+            <!-- Title -->
+            <div>
+
+                <label for="headline"
+                       class="mb-2 block font-semibold text-gray-800
+                              dark:text-gray-200">
+                    Post Headline
+                    <span class="text-red-500">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="headline"
+                    name="headline"
+                    placeholder="Enter your post headline"
+                    maxlength="200"
+                    required
+                    class="w-full rounded-lg border border-gray-300
+                           bg-gray-50 px-4 py-3 text-gray-900
+                           placeholder-gray-400 outline-none transition
+                           focus:border-cyan-500 focus:ring-2
+                           focus:ring-cyan-500/30
+                           dark:border-gray-600 dark:bg-gray-700
+                           dark:text-white dark:placeholder-gray-400"
+                >
+
+            </div>
+
+
+            <!-- Author -->
+            <div>
+
+                <label for="author"
+                       class="mb-2 block font-semibold text-gray-800
+                              dark:text-gray-200">
+                    Author
+                    <span class="text-red-500">*</span>
+                </label>
+
+                <div class="relative">
+
+                    <i class="fa-solid fa-user pointer-events-none
+                              absolute left-4 top-1/2 -translate-y-1/2
+                              text-gray-400"></i>
+
+                    <input
+                        type="text"
+                        id="author"
+                        name="author"
+                        placeholder="Enter author's name"
+                        required
+                        class="w-full rounded-lg border border-gray-300
+                               bg-gray-50 py-3 pl-11 pr-4 text-gray-900
+                               placeholder-gray-400 outline-none transition
+                               focus:border-cyan-500 focus:ring-2
+                               focus:ring-cyan-500/30
+                               dark:border-gray-600 dark:bg-gray-700
+                               dark:text-white dark:placeholder-gray-400"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Category -->
+            <div>
+
+                <label for="category"
+                       class="mb-2 block font-semibold text-gray-800
+                              dark:text-gray-200">
+                    Category
+                    <span class="text-red-500">*</span>
+                </label>
+
+                <div class="relative">
+
+                    <i class="fa-solid fa-folder-open pointer-events-none
+                              absolute left-4 top-1/2 -translate-y-1/2
+                              text-gray-400"></i>
+
+                    <input
+                        type="text"
+                        id="category"
+                        name="category"
+                        placeholder="Example: Go Programming"
+                        required
+                        class="w-full rounded-lg border border-gray-300
+                               bg-gray-50 py-3 pl-11 pr-4 text-gray-900
+                               placeholder-gray-400 outline-none transition
+                               focus:border-cyan-500 focus:ring-2
+                               focus:ring-cyan-500/30
+                               dark:border-gray-600 dark:bg-gray-700
+                               dark:text-white dark:placeholder-gray-400"
+                    >
+
+                </div>
+
+                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    Choose a category that best describes your post.
+                </p>
+
+            </div>
+
+
+            <!-- Content -->
+            <div>
+
+                <label for="content"
+                       class="mb-2 block font-semibold text-gray-800
+                              dark:text-gray-200">
+                    Post Content
+                    <span class="text-red-500">*</span>
+                </label>
+
+                <textarea
+                    id="content"
+                    name="content"
+                    rows="12"
+                    placeholder="Write your blog post here..."
+                    required
+                    class="w-full resize-y rounded-lg border border-gray-300
+                           bg-gray-50 px-4 py-3 leading-7 text-gray-900
+                           placeholder-gray-400 outline-none transition
+                           focus:border-cyan-500 focus:ring-2
+                           focus:ring-cyan-500/30
+                           dark:border-gray-600 dark:bg-gray-700
+                           dark:text-white dark:placeholder-gray-400"
+                ></textarea>
+
+                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    Write something informative, helpful, or interesting.
+                </p>
+
+            </div>
+
+
+            <!-- Form Actions -->
+            <div class="flex flex-col-reverse gap-3 border-t
+                        border-gray-200 pt-6 sm:flex-row sm:items-center
+                        sm:justify-between dark:border-gray-700">
+
+                <!-- Cancel -->
+                <a
+                    href="/"
+                    class="inline-flex items-center justify-center gap-2
+                           rounded-lg border border-gray-300 px-6 py-3
+                           font-semibold text-gray-700 transition
+                           hover:bg-gray-100
+                           dark:border-gray-600 dark:text-gray-200
+                           dark:hover:bg-gray-700"
+                >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Cancel
+                </a>
+
+                <!-- Publish -->
+                <button
+                    type="submit"
+                    class="inline-flex items-center justify-center gap-2
+                           rounded-lg bg-cyan-500 px-6 py-3 font-semibold
+                           text-gray-950 shadow-sm transition
+                           hover:bg-cyan-400 focus:outline-none
+                           focus:ring-2 focus:ring-cyan-500
+                           focus:ring-offset-2
+                           dark:focus:ring-offset-gray-800"
+                >
+                    <i class="fa-solid fa-paper-plane"></i>
+                    Publish Post
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- Helpful Note -->
+    <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+        <i class="fa-solid fa-circle-info mr-1 text-cyan-500"></i>
+        Please review your post before publishing.
+    </p>
+
+</div>
+
+{{ end }}

@@ -1,0 +1,220 @@
+
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark light">
+
+    <title>{{ block "title" . }}MyBlogs{{ end }}</title>
+
+    <!-- Tailwind CSS CDN (development) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gray-950 text-gray-100 antialiased
+             transition-colors duration-300">
+
+    <div class="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-5 sm:px-8">
+
+        <!-- Header -->
+        <header class="flex flex-wrap items-center justify-between gap-4 py-6">
+
+            <!-- Logo -->
+            <a href="/"
+               class="flex items-center gap-3"
+               aria-label="MyBlogs home">
+
+                <i class="fa-solid fa-blog text-3xl text-cyan-400"></i>
+
+                <span class="text-2xl font-bold tracking-tight text-white">
+                    MyBlogs
+                </span>
+            </a>
+
+            <!-- Navigation -->
+            <nav class="flex flex-wrap items-center gap-4 sm:gap-6"
+                 aria-label="Main navigation">
+
+                <a href="/"
+                   class="text-sm font-semibold text-gray-300 transition hover:text-cyan-400">
+                    <i class="fa-solid fa-house mr-1"></i>
+                    Home
+                </a>
+
+                <a href="/about"
+                   class="text-sm font-semibold text-gray-300 transition hover:text-cyan-400">
+                    <i class="fa-solid fa-user mr-1"></i>
+                    About
+                </a>
+
+                <a href="/login"
+                   class="text-sm font-semibold text-gray-300 transition hover:text-cyan-400">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    Login
+                </a>
+
+                <a href="/signup"
+                   class="text-sm font-semibold text-gray-300 transition hover:text-cyan-400">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Sign-Up
+                </a>
+
+                <a href="/posts"
+                   class="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold
+                          text-gray-950 transition hover:bg-cyan-400">
+                    <i class="fa-solid fa-plus mr-1"></i>
+                    New Post
+                </a>
+
+                <button
+                    id="theme-toggle"
+                    type="button"
+                    class="rounded-full p-2 text-gray-300 transition hover:text-cyan-400"
+                    aria-label="Switch to light mode"
+                    title="Toggle theme">
+
+                    <i id="moon-icon" class="fa-solid fa-moon text-lg"></i>
+                    <i id="sun-icon" class="fa-solid fa-sun hidden text-lg"></i>
+                </button>
+
+            </nav>
+        </header>
+
+        <!-- Divider -->
+        <div class="border-b border-gray-800"></div>
+
+        <!-- Main Content -->
+        <main class="flex-1 py-8 sm:py-10">
+            {{ block "content" . }}{{ end }}
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-10 border-t border-gray-800 py-8">
+
+            <div class="mb-4 flex items-center justify-center gap-5">
+
+                <a href="mailto:hello@example.com"
+                   aria-label="Email"
+                   class="text-xl text-gray-400 transition hover:text-cyan-400">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+
+                <a href="https://github.com/"
+                   aria-label="GitHub"
+                   class="text-xl text-gray-400 transition hover:text-cyan-400">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+
+                <a href="https://www.linkedin.com/"
+                   aria-label="LinkedIn"
+                   class="text-xl text-gray-400 transition hover:text-cyan-400">
+                    <i class="fa-brands fa-linkedin"></i>
+                </a>
+
+                <a href="https://x.com/"
+                   aria-label="X"
+                   class="text-xl text-gray-400 transition hover:text-cyan-400">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+
+            </div>
+
+            <p class="text-center text-sm leading-7 text-gray-500">
+                <a href="/about" class="transition hover:text-cyan-400">
+                    MyBlogs
+                </a>
+
+                <span class="mx-2">&middot;</span>
+
+                &copy; <span id="current-year"></span>
+
+                <span class="mx-2">&middot;</span>
+
+                All rights reserved.
+            </p>
+
+        </footer>
+    </div>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        // Update copyright year
+        document.getElementById("current-year").textContent =
+            new Date().getFullYear();
+
+        const themeToggle = document.getElementById("theme-toggle");
+        const moonIcon = document.getElementById("moon-icon");
+        const sunIcon = document.getElementById("sun-icon");
+        const html = document.documentElement;
+        const body = document.body;
+
+        // Apply the selected theme
+        function setTheme(isDark) {
+            html.classList.toggle("dark", isDark);
+
+            body.classList.toggle("bg-gray-950", isDark);
+            body.classList.toggle("text-gray-100", isDark);
+
+            body.classList.toggle("bg-gray-50", !isDark);
+            body.classList.toggle("text-gray-900", !isDark);
+
+            moonIcon.classList.toggle("hidden", !isDark);
+            sunIcon.classList.toggle("hidden", isDark);
+
+            themeToggle.setAttribute(
+                "aria-label",
+                isDark ? "Switch to light mode" : "Switch to dark mode"
+            );
+
+            document.querySelectorAll("nav a:not([href='/posts'])")
+                .forEach(link => {
+                    link.classList.toggle("text-gray-300", isDark);
+                    link.classList.toggle("text-gray-700", !isDark);
+                });
+
+            document.querySelectorAll("footer a, footer p")
+                .forEach(element => {
+                    element.classList.toggle("text-gray-400", isDark);
+                    element.classList.toggle("text-gray-600", !isDark);
+                });
+
+            document.querySelector("header .text-white")
+                .classList.toggle("text-gray-900", !isDark);
+
+            document.querySelector("header .text-white")
+                .classList.toggle("text-white", isDark);
+
+            localStorage.setItem("myblogs-theme", isDark ? "dark" : "light");
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem("myblogs-theme");
+        setTheme(savedTheme !== "light");
+
+        // Toggle theme
+        themeToggle.addEventListener("click", () => {
+            setTheme(!html.classList.contains("dark"));
+        });
+    </script>
+
+</body>
+</html>
+{{ end }}

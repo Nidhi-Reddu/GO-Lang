@@ -1,0 +1,177 @@
+
+{{ define "title" }}Home | MyBlogs{{ end }}
+
+{{ define "content" }}
+
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+
+    <!-- Blog Posts -->
+    <section class="lg:col-span-2">
+
+        <!-- Section Heading -->
+        <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+                    Latest Posts
+                </h1>
+
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                    Explore the latest articles and programming tutorials.
+                </p>
+            </div>
+
+            <a href="/posts"
+               class="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-4 py-2 font-semibold text-gray-950 transition hover:bg-cyan-400">
+                <i class="fa-solid fa-plus"></i> New Post
+            </a>
+        </div>
+
+        <!-- Posts from Database -->
+        {{ range . }}
+
+        <a href="/post?id={{ .ID }}" class="group block">
+
+            <article class="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-md transition duration-300 hover:-translate-y-1 hover:border-cyan-500 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800">
+
+                <!-- Post Title -->
+                <h2 class="mb-3 text-2xl font-bold text-gray-900 transition group-hover:text-cyan-600 dark:text-white dark:group-hover:text-cyan-400">
+                    {{ .Headline }}
+                </h2>
+                <!-- Post Content -->
+                <p class="mb-5 whitespace-pre-line leading-7 text-gray-700 dark:text-gray-300">
+                    {{ .Content }}
+                </p>
+
+                <div class="flex flex-wrap items-center justify-between gap-3 border-t border-gray-200 pt-4 text-sm text-gray-500 dark:border-gray-700 dark:text-gray-400">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-user text-cyan-500"></i> By {{ .Author }}
+                    </span>
+
+                    <span class="flex items-center gap-2">
+                        <i class="fa-regular fa-calendar text-cyan-500"></i> {{ .CreatedAt.Format "02 Jan 2006" }}
+                    </span>
+
+                </div>
+
+                <!-- Read More -->
+                <div class="mt-4 text-sm font-semibold text-cyan-600 transition group-hover:text-cyan-500 dark:text-cyan-400">
+                    Read article<i class="fa-solid fa-arrow-right ml-1 transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </article>
+        </a>
+
+        {{ else }}
+
+        <!-- Empty State -->
+        <div class="rounded-xl border border-gray-200 bg-white px-6 py-12 text-center shadow-md dark:border-gray-700 dark:bg-gray-800">
+            <i class="fa-solid fa-newspaper mb-4 text-5xl text-gray-400 dark:text-gray-500"></i>
+            <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                No Posts Yet
+            </h2>
+
+            <p class="mb-6 text-gray-600 dark:text-gray-400">
+                There are no blog posts available right now.
+                Be the first to share something!
+            </p>
+
+            <a href="/posts" class="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-5 py-2.5 font-semibold text-gray-950 transition hover:bg-cyan-400">
+                <i class="fa-solid fa-pen-to-square"></i> Create Your First Post
+            </a>
+
+        </div>
+
+        {{ end }}
+
+    </section>
+
+
+    <!-- Sidebar -->
+    <aside class="space-y-6">
+
+        <!-- About Me -->
+        <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
+            <div class="mb-4 flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center
+                            rounded-lg bg-cyan-100 text-cyan-700
+                            dark:bg-cyan-950 dark:text-cyan-400">
+                    <i class="fa-solid fa-user text-lg"></i>
+                </div>
+
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white">
+                    About Me
+                </h2>
+            </div>
+
+            <p class="leading-7 text-gray-700 dark:text-gray-300">
+                Hi! I'm a developer learning Go and backend development.
+                This blog is where I share my learning journey, projects,
+                programming experiences, and things I discover along the way.
+            </p>
+
+            <a href="/about" class="mt-4 inline-flex items-center gap-2 font-semibold text-cyan-600 transition hover:text-cyan-500 dark:text-cyan-400"> 
+                More about me <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <!-- Categories
+        <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
+            <div class="mb-5 flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-100 text-cyan-700 dark:bg-cyan-950 dark:text-cyan-400">
+                    <i class="fa-solid fa-layer-group text-lg"></i>
+                </div>
+
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white"> Categories </h2>
+            </div>
+
+            <ul class="space-y-4">
+
+                <li>
+                    <a href="/?category=Go%20Programming" class="flex items-center justify-between gap-3 text-gray-700 transition hover:text-cyan-600 dark:text-gray-300 dark:hover:text-cyan-400">
+                        <span class="flex items-center gap-3"> <i class="fa-brands fa-golang text-cyan-500"></i> Go Programming </span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/?category=Backend%20Development" class="flex items-center justify-between gap-3 text-gray-700 transition hover:text-cyan-600 dark:text-gray-300 dark:hover:text-cyan-400">
+                        <span class="flex items-center gap-3"> <i class="fa-solid fa-server text-cyan-500"></i> Backend Development </span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/?category=Programming" class="flex items-center justify-between gap-3 text-gray-700 transition hover:text-cyan-600 dark:text-gray-300 dark:hover:text-cyan-400">
+                        <span class="flex items-center gap-3"> <i class="fa-solid fa-code text-cyan-500"></i> Programming </span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/?category=Projects" class="flex items-center justify-between gap-3 text-gray-700 transition hover:text-cyan-600 dark:text-gray-300 dark:hover:text-cyan-400">
+                        <span class="flex items-center gap-3"> <i class="fa-solid fa-folder text-cyan-500"></i> Projects </span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </a>
+                </li>
+            </ul>
+        </div> -->
+
+        <div class="rounded-xl border border-cyan-800 bg-gray-900 p-6 shadow-md">
+
+            <i class="fa-solid fa-lightbulb mb-3 text-2xl text-cyan-400"></i>
+            <h2 class="mb-2 text-lg font-bold text-white">Have Something to Share? </h2>
+            <p class="mb-4 text-sm leading-6 text-gray-400">
+                Share your ideas, tutorials, and projects with the community.
+            </p>
+            <a href="/posts" class="inline-flex items-center gap-2 font-semibold text-cyan-400 transition hover:text-cyan-300">
+                Write a post <i class="fa-solid fa-arrow-right"></i> 
+            </a>
+
+        </div>
+
+    </aside>
+
+</div>
+
+{{ end }}
