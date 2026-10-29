@@ -1,30 +1,46 @@
 package database
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"sync"
+	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"
 )
 
+var (
+	mu   sync.Mutex
+	pool *sqlx.DB
+)
+
 func ConnectDB() (*sqlx.DB, error) {
-	err := godotenv.Load()
-	if err != nil {
+	mu.Lock()
+	defer mu.Unlock()
+
+	if pool != nil {
+		return pool, nil
+	}
+	if err := godotenv.Load(); err != nil {
 		return nil, fmt.Errorf("failed to load .env: %w", err)
 	}
 
-	database_url := os.Getenv("DATABASE_URL")
-	if database_url == "" {
-		return nil, fmt.Errorf("Database url is empty !!")
+	databaseURL := os.Getenv("DATABASE_URL")
+	if databaseURL == "" {
+		return nil, errors.New("DATABASE_URL is empty")
 	}
-
-	conn, err := sqlx.Connect("pgx", database_url)
-
+	conn, err := sqlx.Connect("pgx", databaseURL)
 	if err != nil {
-		return nil, fmt.Errorf("Failed to connect database : %w", err)
+		return nil, fmt.Errorf("failed to connect database: %w", err)
 	}
 
-	return conn, nil
+	conn.SetMaxOpenConns(10)
+	conn.SetMaxIdleConns(5)
+	conn.SetConnMaxLifetime(30 * time.Minute)
+
+	pool = conn
+	return pool, nil
 }
